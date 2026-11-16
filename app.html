@@ -1,0 +1,697 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+  
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#635BDB">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUMIO Messenger</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #f4f5fb;
+  color: #292942;
+}
+
+button, input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+}
+
+:root {
+  --primary: #635bdb;
+  --turquoise: #17bebb;
+  --light: #f4f5fb;
+  --border: #ececf3;
+}
+
+#landing {
+  display: none;
+  min-height: 100vh;
+}
+
+.landing-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 7%;
+  background: white;
+}
+
+.logo {
+  font-size: 27px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: var(--primary);
+}
+
+.landing-content {
+  padding: 100px 8%;
+  min-height: 75vh;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.landing-content > div {
+  flex: 1;
+  min-width: 260px;
+}
+
+.landing-content h1 {
+  font-size: 48px;
+  margin-bottom: 18px;
+}
+
+.landing-content h1 span {
+  color: var(--primary);
+}
+
+.landing-content p {
+  color: #777;
+  line-height: 1.7;
+  margin-bottom: 25px;
+}
+
+.primary-btn {
+  background: var(--primary);
+  color: white;
+  padding: 14px 24px;
+  border-radius: 25px;
+  font-weight: bold;
+}
+
+.primary-btn:hover {
+  background: #5048c2;
+}
+
+.landing-preview {
+  background: white;
+  padding: 30px;
+  border-radius: 25px;
+  box-shadow: 0 12px 40px #635bdb20;
+}
+
+.demo-label {
+  color: #e28b38;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+/* MESSENGER */
+
+#messenger {
+  display: block;
+  height: 100dvh;
+  min-height: 500px;
+  background: white;
+}
+
+.app-layout {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 75px 320px 1fr;
+}
+
+/* NAVIGASI */
+
+.sidebar {
+  background: #272640;
+  color: white;
+  padding: 18px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+
+.sidebar-logo {
+  font-size: 22px;
+  font-weight: bold;
+  color: #a9a2ff;
+  margin-bottom: 12px;
+}
+
+.nav-button {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  color: #c4c2dc;
+  background: transparent;
+  font-size: 20px;
+}
+
+.nav-button.active,
+.nav-button:hover {
+  color: white;
+  background: #514c85;
+}
+
+/* DAFTAR CHAT */
+
+.chat-list-panel {
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.list-header {
+  padding: 22px 18px 14px;
+}
+
+.list-header h2 {
+  font-size: 23px;
+  margin-bottom: 15px;
+}
+
+.search-box {
+  width: 100%;
+  padding: 12px 14px;
+  border: none;
+  outline: none;
+  background: #f2f2f8;
+  border-radius: 12px;
+  font-size: 14px;
+}
+
+.chat-list {
+  overflow-y: auto;
+  flex: 1;
+}
+
+.chat-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid #f4f4f7;
+}
+
+.chat-item:hover,
+.chat-item.selected {
+  background: #f0efff;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  border-radius: 50%;
+  background: #e4e1ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 23px;
+}
+
+.chat-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.chat-info h3 {
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.chat-info p {
+  color: #9292a2;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chat-time {
+  font-size: 10px;
+  color: #999;
+}
+
+/* AREA PERCAKAPAN */
+
+.conversation {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: #f8f8fc;
+}
+
+.conversation-header {
+  height: 75px;
+  padding: 12px 20px;
+  background: white;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.conversation-header h3 {
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+
+.online-status {
+  color: #17a88e;
+  font-size: 11px;
+}
+
+.back-button {
+  display: none;
+  background: transparent;
+  color: var(--primary);
+  font-size: 23px;
+}
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.message {
+  max-width: 75%;
+  width: fit-content;
+  padding: 12px 15px;
+  border-radius: 15px;
+  background: white;
+  font-size: 14px;
+  line-height: 1.5;
+  box-shadow: 0 2px 6px #00000008;
+}
+
+.message.mine {
+  align-self: flex-end;
+  background: #e5e2ff;
+  border-bottom-right-radius: 4px;
+}
+
+.message.theirs {
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+
+.message small {
+  display: block;
+  text-align: right;
+  color: #999;
+  font-size: 10px;
+  margin-top: 5px;
+}
+
+.welcome-message {
+  margin: auto;
+  text-align: center;
+  color: #999;
+  padding: 25px;
+}
+
+.welcome-message h2 {
+  color: var(--primary);
+  margin-bottom: 10px;
+}
+
+.message-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  background: white;
+  border-top: 1px solid var(--border);
+}
+
+.message-form input {
+  flex: 1;
+  min-width: 0;
+  padding: 14px;
+  border: none;
+  outline: none;
+  background: #f2f2f8;
+  border-radius: 25px;
+}
+
+.send-btn {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  font-size: 18px;
+}
+
+.empty-state {
+  display: none;
+  padding: 25px;
+  color: #999;
+  text-align: center;
+}
+
+@media(max-width: 750px) {
+  .app-layout {
+    grid-template-columns: 60px 1fr;
+  }
+
+  .conversation {
+    display: none;
+  }
+
+  #messenger.chat-open .chat-list-panel {
+    display: none;
+  }
+
+  #messenger.chat-open .conversation {
+    display: flex;
+    grid-column: 1 / -1;
+  }
+
+  #messenger.chat-open .sidebar {
+    display: none;
+  }
+
+  .back-button {
+    display: block;
+  }
+
+  .landing-content {
+    padding: 65px 7%;
+  }
+
+  .landing-content h1 {
+    font-size: 38px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LANDING PAGE -->
+
+<section id="landing">
+  <div class="landing-nav">
+    <div class="logo">LUMIO.</div>
+    <span class="demo-label">PRE-RELEASE</span>
+  </div>
+
+  <div class="landing-content">
+    <div>
+      <h1>Lebih Dekat,<br><span>Tanpa Batas.</span></h1>
+
+      <p>
+        Selamat datang di LUMIO.
+        Ruang komunikasi modern untuk
+        menghubungkan semua orang.
+      </p>
+
+      <button class="primary-btn" onclick="openMessenger()">
+        Buka LUMIO →
+      </button>
+    </div>
+
+    <div class="landing-preview">
+      <h2 style="color:#635bdb;margin-bottom:15px">
+        💬 LUMIO Messenger
+      </h2>
+      <p style="color:#777;line-height:1.7">
+        Personal chat, grup, komunitas,
+        dan banyak pengalaman komunikasi
+        dalam satu tempat.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- APLIKASI MESSENGER -->
+
+<section id="messenger">
+
+  <div class="app-layout">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+      <div class="sidebar-logo">L</div>
+
+      <button class="nav-button active" title="Chat">💬</button>
+      <button class="nav-button" title="Kontak"
+        onclick="showNotice('Kontak')">👥</button>
+      <button class="nav-button" title="Grup"
+        onclick="showNotice('Grup')">🌐</button>
+      <button class="nav-button" title="Pengaturan"
+        onclick="showNotice('Pengaturan')">⚙️</button>
+
+      <div style="flex:1"></div>
+    
+<button class="nav-button" title="Kembali"
+onclick="window.location.href='index.html'">↩</button>
+    </aside>
+
+    <!-- PANEL DAFTAR CHAT -->
+
+    <section class="chat-list-panel">
+
+      <div class="list-header">
+        <h2>Pesan <span style="color:#635bdb">.</span></h2>
+        <input
+          class="search-box"
+          id="searchInput"
+          type="text"
+          placeholder="🔍 Cari percakapan..."
+          oninput="searchChats()">
+      </div>
+
+      <div class="chat-list" id="chatList">
+
+        <div class="chat-item selected"
+          onclick="openChat('Alya','🌸','Halo! Apa kabar?')">
+          <div class="avatar">🌸</div>
+          <div class="chat-info">
+            <h3>Alya</h3>
+            <p>Halo! Apa kabar?</p>
+          </div>
+          <span class="chat-time">09.30</span>
+        </div>
+
+        <div class="chat-item"
+          onclick="openChat('Rafael','🧑','Sampai nanti!')">
+          <div class="avatar">🧑</div>
+          <div class="chat-info">
+            <h3>Rafael</h3>
+            <p>Sampai nanti!</p>
+          </div>
+          <span class="chat-time">08.45</span>
+        </div>
+
+        <div class="chat-item"
+          onclick="openChat('LUMIO Community','🌐','Selamat datang!')">
+          <div class="avatar">🌐</div>
+          <div class="chat-info">
+            <h3>LUMIO Community</h3>
+            <p>Selamat datang!</p>
+          </div>
+          <span class="chat-time">Kemarin</span>
+        </div>
+
+        <div class="chat-item"
+          onclick="openChat('Kevin','🎧','Ada kabar baru?')">
+          <div class="avatar">🎧</div>
+          <div class="chat-info">
+            <h3>Kevin</h3>
+            <p>Ada kabar baru?</p>
+          </div>
+          <span class="chat-time">Kemarin</span>
+        </div>
+
+      </div>
+
+      <div class="empty-state" id="emptyState">
+        Percakapan tidak ditemukan.
+      </div>
+
+    </section>
+
+    <!-- PANEL PERCAKAPAN -->
+
+    <section class="conversation">
+
+      <div class="conversation-header">
+        <button class="back-button"
+          onclick="backToChats()">←</button>
+
+        <div class="avatar" id="headerAvatar">🌸</div>
+
+        <div>
+          <h3 id="headerName">Alya</h3>
+          <p class="online-status">● Demo conversation</p>
+        </div>
+      </div>
+
+      <div class="messages" id="messages">
+
+        <div class="message theirs">
+          Halo! Selamat datang di LUMIO.
+          <small>09.28</small>
+        </div>
+
+        <div class="message mine">
+          Hai! Senang mencoba LUMIO.
+          <small>09.29 ✓✓</small>
+        </div>
+
+        <div class="message theirs">
+          Halo! Apa kabar?
+          <small>09.30</small>
+        </div>
+
+      </div>
+
+      <form class="message-form" onsubmit="sendMessage(event)">
+        <input
+          type="text"
+          id="messageInput"
+          placeholder="Tulis pesan..."
+          autocomplete="off"
+          required>
+
+        <button class="send-btn" type="submit">➤</button>
+      </form>
+
+    </section>
+
+  </div>
+</section>
+
+<script>
+const landing = document.getElementById("landing");
+const messenger = document.getElementById("messenger");
+
+function openMessenger() {
+  landing.style.display = "none";
+  messenger.style.display = "block";
+}
+
+function closeMessenger() {
+  messenger.style.display = "none";
+  landing.style.display = "block";
+}
+
+function openChat(name, avatar, lastMessage) {
+  document.getElementById("headerName").textContent = name;
+  document.getElementById("headerAvatar").textContent = avatar;
+
+  const messages = document.getElementById("messages");
+
+  messages.innerHTML = `
+    <div class="message theirs">
+      ${escapeHTML(lastMessage)}
+      <small>09.30</small>
+    </div>
+  `;
+
+  document.querySelectorAll(".chat-item").forEach(item => {
+    item.classList.remove("selected");
+  });
+
+  event.currentTarget.classList.add("selected");
+
+  if (window.innerWidth <= 750) {
+    messenger.classList.add("chat-open");
+  }
+}
+
+function backToChats() {
+  messenger.classList.remove("chat-open");
+}
+
+function sendMessage(event) {
+  event.preventDefault();
+
+  const input = document.getElementById("messageInput");
+  const messages = document.getElementById("messages");
+  const value = input.value.trim();
+
+  if (!value) return;
+
+  const bubble = document.createElement("div");
+  bubble.className = "message mine";
+  bubble.textContent = value;
+
+  const time = document.createElement("small");
+  time.textContent = "Baru saja • Demo";
+
+  bubble.appendChild(time);
+  messages.appendChild(bubble);
+
+  input.value = "";
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function searchChats() {
+  const query = document.getElementById("searchInput")
+    .value.toLowerCase();
+
+  const items = document.querySelectorAll(".chat-item");
+  let visible = 0;
+
+  items.forEach(item => {
+    const match = item.textContent.toLowerCase().includes(query);
+    item.style.display = match ? "flex" : "none";
+    if (match) visible++;
+  });
+
+  document.getElementById("emptyState").style.display =
+    visible === 0 ? "block" : "none";
+}
+
+function showNotice(name) {
+  alert(name + " akan dikembangkan pada tahap berikutnya.");
+}
+
+function escapeHTML(value) {
+  return value.replace(/[&<>"']/g, character => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  })[character]);
+}
+</script>
+  
+  </script>
+
+  <!-- LUMIO Service Worker -->
+  <script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./sw.js")
+        .then(() => console.log("LUMIO Service Worker aktif"))
+        .catch((error) => console.error("Service Worker gagal:", error));
+    });
+  }
+  </script>
+
+</body>
+</html>

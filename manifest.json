@@ -1,0 +1,27 @@
+
+{
+  "id": "./app.html",
+  "name": "LUMIO Messenger",
+  "short_name": "LUMIO",
+  "description": "Lebih Dekat, Tanpa Batas.",
+  "start_url": "./app.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F7F7FC",
+  "theme_color": "#635BDB",
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
